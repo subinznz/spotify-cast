@@ -1,0 +1,8 @@
+
+OIFS="$IFS"^C
+IFS=' '
+IFS="$OIFS"
+read -a dnsservers <<< "$(pidof spotify)"
+for i in "${dnsservers[@]}"; do windowid=$(wmctrl -lp | grep $i | grep -Eo '^[^ ]+'); done
+vlc window://${windowid} --screen-top=350 --screen-left=150 :input-slave=alsa://pulse :screen-follow-mouse :screen-mouse-image="~/Pictures/mousepointerimage.png" :sout="#transcode{vcodec=mp2v,vb=3500,fps=24,width=1024,acodec=mp4a,ab=192,channels=2,samplerate=44100} :http{dst=:8081/desk.ts}" :no-sout-rtp-sap :no-sout-standard-sap :ttl=1 :sout-keep --sout-avcodec-strict=-2 
+
